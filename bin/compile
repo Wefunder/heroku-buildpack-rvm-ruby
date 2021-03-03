@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+# bin/compile <build-dir> <cache-dir>
+
+# fail fast
+set -e
+
+# parse and derive params
+BUILD_DIR=$1
+CACHE_DIR=$2
+ENV_DIR=$3
+
+function topic() {
+  echo "-----> $*"
+}
+
+topic "Installing RVM"
+
+# Install RVM
+gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+\curl -sSL https://get.rvm.io | bash -s stable --ruby
+
+source /usr/local/rvm/scripts/rvm
+
+VERSION="2.6.3"
+topic "Installing Ruby $VERSION"
+
+rvm install $VERSION
+rvm --default use $VERSION
+
+topic "Done"
